@@ -1,55 +1,74 @@
 import time
+import argparse
+from playsound import playsound
 
 
-class The_Time:
-
-    def __init__(self):
-        self.minutes = 0
-        self.seconds = 0
-        self.milliseconds = 0
-
-    def update(self):
-        self.milliseconds += 1
-        if self.milliseconds % 1000 == 0:
-            self.milliseconds = 0
-            self.seconds += 1
-            if self.seconds % 60 == 0:
-                self.seconds = 0
-                self.minutes += 1
-                self.minutes %= 60
-
-    def display(self):
-
-        if self.minutes < 10:
-            minutes = f'0{self.minutes}'
+def _(minutes, seconds, music_path):
+    time_1 = time.time()
+    time_2 = time_1 + minutes * 60 + seconds
+    print("\t\t\t       ---    Time Remaining   ---")
+    while True:
+        rem = time_2 - time.time()
+        if abs(rem) < 0.05:
+            print(f"\n\t\t\t\t Music {music_path} is playing!")
+            playsound(music_path)
+            break
         else:
-            minutes = f'{self.minutes}'
+            disp = f"\t\t\t\t\t  "
+            rem_mins = int(rem // 60)
+            rem_secs = int(rem % 60)
+            if rem_mins < 10:
+                disp += f'0{rem_mins}:'
+            else:
+                disp += f"{rem_mins}:"
+            if rem_secs < 10:
+                disp += f'0{rem_secs}'
+            else:
+                disp += f"{rem_secs}"
 
-        if self.seconds < 10:
-            seconds = f'0{self.seconds}'
-        else:
-            seconds = f'{self.seconds}'
+            print(disp, end='\r')
 
-        if self.milliseconds < 10:
-            milliseconds = f'00{self.milliseconds}'
-        elif 10 <= self.milliseconds < 100:
-            milliseconds = f'0{self.milliseconds}'
-        else:
-            milliseconds = f'{self.milliseconds}'
 
-        disp = f'{minutes}:{seconds}.{milliseconds}'
+def pomodoro(args):
 
-        return disp
+    print('\n\n\t\t------------------- Welcome to Pomodoro -------------------')
+    while args.repeat:
+        _(args.minutes, args.seconds, 'morning.mp3')
+        _(0, 3, 'micro.mp3')
+        args.repeat -= 1
 
 
 def main():
-    print('------------------- TIME -------------------')
-    time_1 = The_Time()
-    print(f'time: {time_1.display()}', end='\r')
-    for i in range(10 ** 6):
-        time_1.update()
-        print(f'time: {time_1.display()}')
-        time.sleep(0.00001)
+
+    argparser = argparse.ArgumentParser(
+            description='Pomodoro')
+    argparser.add_argument(
+        '--minutes', '-M',
+        metavar='M',
+        default=25,
+        type=int,
+        help='Minutes before turning up (default: 25).')
+
+    argparser.add_argument(
+        '--seconds', '-S',
+        metavar='S',
+        default=0,
+        type=int,
+        help='Seconds before turning up (default: 0).')
+
+    argparser.add_argument(
+        '--repeat', '-R',
+        metavar='R',
+        default=2,
+        type=int,
+        help='Number of times to repeat the process.')
+
+    args = argparser.parse_args()
+    try:
+        pomodoro(args)
+
+    except KeyboardInterrupt:
+        print('\nCancelled by user. Bye!')
 
 
 if __name__ == '__main__':
