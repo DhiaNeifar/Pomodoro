@@ -6,7 +6,7 @@ from playsound import playsound
 def _(minutes, seconds, music_path):
     time_1 = time.time()
     time_2 = time_1 + minutes * 60 + seconds
-    print("\t\t\t       ---    Time Remaining   ---")
+    print("\t\t\t        ---    Time Remaining   ---")
     while True:
         rem = time_2 - time.time()
         if abs(rem) < 0.05:
