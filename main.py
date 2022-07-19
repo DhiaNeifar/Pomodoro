@@ -10,7 +10,6 @@ def _(minutes, seconds, music_path):
     while True:
         rem = time_2 - time.time()
         if abs(rem) < 0.05:
-            print(f"\n\t\t\t\t Music {music_path} is playing!")
             playsound(music_path)
             break
         else:
@@ -33,8 +32,8 @@ def pomodoro(args):
 
     print('\n\n\t\t------------------- Welcome to Pomodoro -------------------')
     while args.repeat:
-        _(args.minutes, args.seconds, 'morning.mp3')
-        _(0, 3, 'micro.mp3')
+        _(args.minutes, args.seconds, '/home/dhianeifar/PycharmProjects/Pomodoro/morning.mp3')
+        _(0, 3, '/home/dhianeifar/PycharmProjects/Pomodoro/micro.mp3')
         args.repeat -= 1
 
 
