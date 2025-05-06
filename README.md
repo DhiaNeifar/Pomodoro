@@ -38,11 +38,10 @@ pip install pygame
 ```
 pomodoro/
 ├── main.py
-├── music/
-│   ├── Rest.mp3            # Played after work period
-│   └── BackToWork.mp3      # Played after break period
-└── assets/
-    └── demo.gif            # (Optional) Demo animation
+└── music/
+    ├── Rest.mp3            # Played after work period
+    └── BackToWork.mp3      # Played after break period
+
 ```
 
 ---
